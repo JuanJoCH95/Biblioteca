@@ -1,0 +1,20 @@
+CREATE DATABASE db_biblioteca;
+
+USE db_biblioteca;
+
+CREATE TABLE Libros (
+    id_libro INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_libro VARCHAR(100) NOT NULL,
+    autor VARCHAR(100),
+    categoria VARCHAR(100),
+    disponible VARCHAR(1)
+);
+
+CREATE TABLE Persona (
+    id_persona INT AUTO_INCREMENT PRIMARY KEY,
+    documento VARCHAR(50) NOT NULL,
+    nombre_persona VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100),
+    email VARCHAR(100),
+    telefono VARCHAR(50)
+);
