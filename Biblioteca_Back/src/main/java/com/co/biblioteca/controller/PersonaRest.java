@@ -15,7 +15,7 @@ public class PersonaRest {
     @Autowired
     private PersonaService personaService;
 
-    @GetMapping("/listado")
+    @GetMapping("/lista")
     public List<Persona> listarPersonas() {
         return personaService.listarPersonas();
     }

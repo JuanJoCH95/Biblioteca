@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "libros")
-public class Libros {
+public class Libro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,11 +15,11 @@ public class Libros {
     private String categoria;
     private String disponible;
 
-    public Libros() {
+    public Libro() {
         super();
     }
 
-    public Libros(Integer id_libro, String nombre_libro, String autor, String categoria, String disponible) {
+    public Libro(Integer id_libro, String nombre_libro, String autor, String categoria, String disponible) {
         super();
         this.id_libro = id_libro;
         this.nombre_libro = nombre_libro;

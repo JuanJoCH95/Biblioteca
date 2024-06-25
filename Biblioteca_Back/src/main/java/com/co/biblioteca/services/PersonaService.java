@@ -12,6 +12,10 @@ public class PersonaService {
     @Autowired
     PersonaRepository personaRepo;
 
+    /**
+     * Metodo encargado de consultar todas las personas en la BD
+     * @return
+     */
     public List<Persona> listarPersonas() {
         return personaRepo.findAll();
     }

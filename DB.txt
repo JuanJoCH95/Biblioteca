@@ -10,7 +10,7 @@ CREATE TABLE Libros (
     disponible VARCHAR(1)
 );
 
-CREATE TABLE Persona (
+CREATE TABLE Personas (
     id_persona INT AUTO_INCREMENT PRIMARY KEY,
     documento VARCHAR(50) NOT NULL,
     nombre_persona VARCHAR(100) NOT NULL,
