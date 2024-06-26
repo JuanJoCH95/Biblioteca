@@ -19,4 +19,12 @@ public class PersonaService {
     public List<Persona> listarPersonas() {
         return personaRepo.findAll();
     }
+
+    /**
+     * Metodo encargado de insertar una nueva persona en la BD
+     * @param newPersona
+     */
+    public void guardarPersona(Persona newPersona) {
+        personaRepo.save(newPersona);
+    }
 }
