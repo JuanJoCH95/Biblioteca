@@ -1,0 +1,46 @@
+CREATE DATABASE db_biblioteca;
+
+USE db_biblioteca;
+
+CREATE TABLE Tipo_Genero (
+    id_genero INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_genero VARCHAR(100)
+);
+
+CREATE TABLE Libros (
+    id_libro INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_libro VARCHAR(100) NOT NULL,
+    autor VARCHAR(100) NOT NULL,
+    id_genero INT,
+    stock INT,
+    disponibles INT,
+    FOREIGN KEY (id_genero) REFERENCES Genero(id_genero)
+);
+
+CREATE TABLE Tipo_Documento (
+    id_documento INT AUTO_INCREMENT PRIMARY KEY,
+    documento_identidad VARCHAR(100)
+);
+
+CREATE TABLE Personas (
+    id_persona INT AUTO_INCREMENT PRIMARY KEY,
+    id_documento INT,
+    num_documento VARCHAR(50) NOT NULL,
+    nombre_persona VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    telefono VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    direccion VARCHAR(100),
+    FOREIGN KEY (id_documento) REFERENCES Tipo_Documento(id_documento)
+);
+
+CREATE TABLE Prestamos (
+    id_prestamo INT AUTO_INCREMENT PRIMARY KEY,
+    id_persona INT,
+    id_libro INT,
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    estado VARCHAR(20),
+    FOREIGN KEY (id_persona) REFERENCES Personas(id_persona),
+    FOREIGN KEY (id_libro) REFERENCES Libros(id_libro)
+);
