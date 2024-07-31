@@ -1,8 +1,13 @@
 C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\view\NewLibro.java
+C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\db\Conexion.java
 C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\view\Prestamos.java
 C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\view\NewUsuario.java
 C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\view\Libros.java
+C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\dto\PrestamoDTO.java
+C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\dto\LibroDTO.java
 C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\view\Dashboard.java
 C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\view\Devoluciones.java
-C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\view\Principal.java
 C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\view\Usuarios.java
+C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\dto\UsuarioDTO.java
+C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\model\LibrosDao.java
+C:\Users\usuario\Documents\Ingenieria de Sistemas\Java\Biblioteca\Biblioteca\src\main\java\com\co\biblioteca\view\Principal.java
