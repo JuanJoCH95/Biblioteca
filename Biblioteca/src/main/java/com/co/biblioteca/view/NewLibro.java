@@ -1,9 +1,22 @@
 package com.co.biblioteca.view;
 
+import javax.swing.*;
+import com.co.biblioteca.controller.LibrosManager;
+import com.co.biblioteca.dto.LibroDTO;
+
 public class NewLibro extends javax.swing.JPanel {
     
     public NewLibro() {
         initComponents();
+    }
+    
+    private void limpiar() {
+        cbxGenero.setSelectedIndex(0);
+        jtxAutor.setText("");
+        jtxDisponibles.setText("");
+        jtxNombre.setText("");
+        jtxStock.setText("");
+        jtxNombre.requestFocus();
     }
     
     @SuppressWarnings("unchecked")
@@ -34,6 +47,11 @@ public class NewLibro extends javax.swing.JPanel {
         btnGuardar.setText("Guardar");
         btnGuardar.setBorderPainted(false);
         btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -126,6 +144,24 @@ public class NewLibro extends javax.swing.JPanel {
                 .addContainerGap(112, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        LibrosManager librosManager = new LibrosManager();
+        LibroDTO libroDto = new LibroDTO();
+        
+        libroDto.setNombreLibro(jtxNombre.getText());
+        libroDto.setAutor(jtxAutor.getText());
+        libroDto.setIdGenero(cbxGenero.getSelectedIndex());
+        libroDto.setStock(!(jtxStock.getText().isEmpty()) ? Integer.parseInt(jtxStock.getText()) : 0);
+        libroDto.setDisponibles(!(jtxDisponibles.getText().isEmpty()) ? Integer.parseInt(jtxDisponibles.getText()) : 0);
+        
+        if(librosManager.validarDatos(libroDto)) {
+            librosManager.registrarLibro(libroDto);
+            limpiar();
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;

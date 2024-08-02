@@ -2,6 +2,7 @@ package com.co.biblioteca.view;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
 import java.awt.BorderLayout;
+import javax.swing.JPanel;
 
 public class Dashboard extends javax.swing.JFrame {
     
@@ -12,11 +13,15 @@ public class Dashboard extends javax.swing.JFrame {
     
     private void initContent() {
         Principal ppal = new Principal();
-        ppal.setSize(738, 479);
-        ppal.setLocation(0, 0);
+        ShowJpanel(ppal);
+    }
+    
+    public static void ShowJpanel(JPanel jp) {
+        jp.setSize(738, 479);
+        jp.setLocation(0, 0);
         
         jpContent.removeAll();
-        jpContent.add(ppal, BorderLayout.CENTER);
+        jpContent.add(jp, BorderLayout.CENTER);
         jpContent.revalidate();
         jpContent.repaint();
     }
@@ -268,24 +273,12 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrestamosActionPerformed
         Prestamos prestamos = new Prestamos();
-        prestamos.setSize(738, 479);
-        prestamos.setLocation(0, 0);
-        
-        jpContent.removeAll();
-        jpContent.add(prestamos, BorderLayout.CENTER);
-        jpContent.revalidate();
-        jpContent.repaint();
+        ShowJpanel(prestamos);
     }//GEN-LAST:event_btnPrestamosActionPerformed
 
     private void btnDevolucionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolucionesActionPerformed
         Devoluciones devoluciones = new Devoluciones();
-        devoluciones.setSize(738, 479);
-        devoluciones.setLocation(0, 0);
-        
-        jpContent.removeAll();
-        jpContent.add(devoluciones, BorderLayout.CENTER);
-        jpContent.revalidate();
-        jpContent.repaint();
+        ShowJpanel(devoluciones);
     }//GEN-LAST:event_btnDevolucionesActionPerformed
 
     private void btnMenuPpalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuPpalActionPerformed
@@ -294,24 +287,12 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void btnLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLibrosActionPerformed
         Libros libros = new Libros();
-        libros.setSize(738, 479);
-        libros.setLocation(0, 0);
-        
-        jpContent.removeAll();
-        jpContent.add(libros, BorderLayout.CENTER);
-        jpContent.revalidate();
-        jpContent.repaint();
+        ShowJpanel(libros);
     }//GEN-LAST:event_btnLibrosActionPerformed
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
         Usuarios usuarios = new Usuarios();
-        usuarios.setSize(738, 479);
-        usuarios.setLocation(0, 0);
-        
-        jpContent.removeAll();
-        jpContent.add(usuarios, BorderLayout.CENTER);
-        jpContent.revalidate();
-        jpContent.repaint();
+        ShowJpanel(usuarios);
     }//GEN-LAST:event_btnUsuariosActionPerformed
     
     public static void main(String args[]) {
@@ -332,7 +313,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnPrestamos;
     private javax.swing.JButton btnReportes;
     private javax.swing.JButton btnUsuarios;
-    private javax.swing.JPanel jpContent;
+    private static javax.swing.JPanel jpContent;
     private javax.swing.JPanel jpFondo;
     private javax.swing.JPanel jpHeader;
     private javax.swing.JPanel jpMenu;

@@ -43,6 +43,11 @@ public class Usuarios extends javax.swing.JPanel {
         btnNuevo.setText("Nuevo");
         btnNuevo.setBorderPainted(false);
         btnNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnEditar.setBackground(new java.awt.Color(51, 51, 51));
         btnEditar.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -119,6 +124,10 @@ public class Usuarios extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        Dashboard.ShowJpanel(new NewUsuario());
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
