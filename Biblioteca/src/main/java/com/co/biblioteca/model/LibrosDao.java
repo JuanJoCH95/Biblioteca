@@ -4,11 +4,18 @@ import com.co.biblioteca.db.Conexion;
 import com.co.biblioteca.dto.LibroDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase que contiene todos los metodos para realizar las transacciones de libros en la BD del sistema
+ * @author Juan Jose Cardona Henao
+ * @version 1.0
+ */
 public class LibrosDao {
     
     private static final String insertLibro = "INSERT INTO libros (nombre_libro, autor, id_genero, stock, disponibles) VALUES (?, ?, ?, ?, ?)";
+    private static final String validateLibro = "SELECT id_libro, nombre_libro FROM libros WHERE nombre_libro like (?)";
     
     /**
      * Metodo encargado de insertar un nuevo libro en la BD
@@ -32,5 +39,33 @@ public class LibrosDao {
 	} finally {
             Conexion.closeConnection(preparedStm, conn);
 	}
+    }
+    
+    /**
+     * Metodo encargado de validar si un libro ya existe en la BD
+     * @param nombre
+     * @return
+     * @throws SQLException 
+     */
+    public boolean validateLibro(String nombre) throws SQLException {
+        boolean libroExiste = false;
+        Connection conn = null;
+        ResultSet resultado = null;
+        PreparedStatement preparedStm = null;
+        int index = 1;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(validateLibro);
+            preparedStm.setString(index++, nombre + "%");
+            resultado = preparedStm.executeQuery();
+            
+            if(resultado.next()) {
+            	libroExiste = true;
+            }
+        } finally {
+            Conexion.closeConnection(resultado, preparedStm, conn);
+        }
+        return libroExiste;
     }
 }

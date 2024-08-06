@@ -31,11 +31,11 @@
                   <Component id="jLabel2" alignment="0" min="-2" pref="178" max="-2" attributes="0"/>
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                       <Component id="cbxTipoDoc" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jtxAutor" alignment="0" pref="280" max="32767" attributes="0"/>
+                      <Component id="jtxNumDoc" alignment="0" pref="280" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jtxNombre" alignment="0" min="-2" pref="280" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" pref="89" max="-2" attributes="0"/>
-                  <Component id="jtxStock" min="-2" pref="280" max="-2" attributes="0"/>
+                  <Component id="jtxApellido" min="-2" pref="280" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="114" max="32767" attributes="0"/>
@@ -48,14 +48,14 @@
                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jtxDisponibles" min="-2" pref="280" max="-2" attributes="0"/>
+                                  <Component id="jtxTelefono" min="-2" pref="280" max="-2" attributes="0"/>
                                   <Component id="jLabel5" min="-2" pref="89" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jtxDisponibles1" min="-2" pref="280" max="-2" attributes="0"/>
+                                  <Component id="jtxEmail" min="-2" pref="280" max="-2" attributes="0"/>
                                   <Component id="jLabel6" min="-2" pref="89" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -66,7 +66,7 @@
                           <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="jtxDisponibles2" min="-2" pref="280" max="-2" attributes="0"/>
+                          <Component id="jtxDireccion" min="-2" pref="280" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -87,7 +87,7 @@
                   <Group type="102" attributes="0">
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jtxDisponibles" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="jtxTelefono" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
@@ -97,8 +97,8 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jtxAutor" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                  <Component id="jtxDisponibles1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="jtxNumDoc" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="jtxEmail" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -108,13 +108,13 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jtxNombre" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                  <Component id="jtxDisponibles2" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="jtxDireccion" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jtxStock" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="jtxApellido" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                   <Component id="btnGuardar" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="71" max="32767" attributes="0"/>
@@ -150,6 +150,9 @@
           <Color id="Hand Cursor"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -179,7 +182,7 @@
         <Property name="text" type="java.lang.String" value="Numero Documento"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jtxAutor">
+    <Component class="javax.swing.JTextField" name="jtxNumDoc">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -219,7 +222,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="jtxStock">
+    <Component class="javax.swing.JTextField" name="jtxApellido">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -257,7 +260,7 @@
         <Property name="text" type="java.lang.String" value="Telefono"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jtxDisponibles">
+    <Component class="javax.swing.JTextField" name="jtxTelefono">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -281,7 +284,7 @@
         <Property name="text" type="java.lang.String" value="Email"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jtxDisponibles1">
+    <Component class="javax.swing.JTextField" name="jtxEmail">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -305,7 +308,7 @@
         <Property name="text" type="java.lang.String" value="Direcci&#xf3;n"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jtxDisponibles2">
+    <Component class="javax.swing.JTextField" name="jtxDireccion">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
