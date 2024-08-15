@@ -3,6 +3,8 @@ package com.co.biblioteca.controller;
 import javax.swing.*;
 import com.co.biblioteca.dto.LibroDTO;
 import com.co.biblioteca.model.LibrosDao;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase que contiene la logica de negocio necesaria para gestionar el modulo de libros
@@ -44,5 +46,21 @@ public class LibrosManager {
             System.out.print(ex.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    /**
+     * Metodo encargado de listar todos los libros
+     * @return 
+     */
+    public List<LibroDTO> listarLibros() {
+        List<LibroDTO> listaLibros = new ArrayList<>();
+        
+        try {
+            listaLibros = libroDao.findAll();
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        return listaLibros;
     }
 }

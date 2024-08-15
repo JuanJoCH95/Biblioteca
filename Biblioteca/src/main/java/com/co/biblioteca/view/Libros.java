@@ -1,9 +1,20 @@
 package com.co.biblioteca.view;
 
+import com.co.biblioteca.controller.LibrosManager;
+import javax.swing.table.DefaultTableModel;
+
 public class Libros extends javax.swing.JPanel {
     
     public Libros() {
         initComponents();
+        LoadLibros();
+    }
+    
+    private void LoadLibros() {
+        LibrosManager librosManager = new LibrosManager();
+        DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
+        librosManager.listarLibros().forEach((lib) -> model.addRow(
+                new Object[] {lib.getIdLibro(), lib.getNombreLibro(), lib.getAutor(), lib.getGenero(), lib.getStock(), lib.getDisponibles()}));
     }
     
     @SuppressWarnings("unchecked")
@@ -65,13 +76,10 @@ public class Libros extends javax.swing.JPanel {
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nombre", "Autor", "Genero", "Stock", "Disponibles"
             }
         ));
         jScrollPane1.setViewportView(tblDatos);
