@@ -2,6 +2,8 @@ package com.co.biblioteca.controller;
 
 import com.co.biblioteca.dto.UsuarioDTO;
 import com.co.biblioteca.model.UsuariosDao;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -40,6 +42,36 @@ public class UsuariosManager {
             } else {
                 JOptionPane.showMessageDialog(null, "Ya existe un usuario con el mismo numero de documento registrado en el sistema", "AVISO", JOptionPane.INFORMATION_MESSAGE);
             }
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Metodo encargado de listar todos los usuarios
+     * @return 
+     */
+    public List<UsuarioDTO> listarUsuarios() {
+        List<UsuarioDTO> listaUsuarios = new ArrayList<>();
+        
+        try {
+            listaUsuarios = usuarioDao.findAll();
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        return listaUsuarios;
+    }
+    
+    /**
+     * Metodo encargado de eliminar usuarios
+     * @param numDocumento 
+     */
+    public void eliminarUsuario(String numDocumento) {
+        try {
+            usuarioDao.deleteUsuario(numDocumento);
+            JOptionPane.showMessageDialog(null, "El usuario ha sido eliminado exitosamente del sistema", "AVISO", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             System.out.print(ex.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);

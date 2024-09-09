@@ -63,4 +63,18 @@ public class LibrosManager {
         }
         return listaLibros;
     }
+    
+    /**
+     * Metodo encargado de eliminar libros
+     * @param idLibro 
+     */
+    public void eliminarLibro(int idLibro) {
+        try {
+            libroDao.deleteLibro(idLibro);
+            JOptionPane.showMessageDialog(null, "El libro ha sido eliminado exitosamente del sistema", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

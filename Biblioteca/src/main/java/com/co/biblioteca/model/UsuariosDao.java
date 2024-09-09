@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase que contiene todos los metodos para realizar las transacciones de usuarios en la BD del sistema
@@ -16,6 +18,8 @@ public class UsuariosDao {
     
     private static final String insertUsuario = "INSERT INTO personas (id_documento, num_documento, nombre_persona, apellido, telefono, email, direccion) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String validateUsuario = "SELECT id_documento, num_documento FROM personas WHERE id_documento = ? AND num_documento = ?";
+    private static final String findAll = "SELECT td.nomenclatura, p.num_documento, p.nombre_persona, p.apellido, p.telefono, p.email, p.direccion FROM personas p INNER JOIN tipo_documento td ON p.id_documento = td.id_documento";
+    private static final String deleteUsuario = "DELETE FROM personas WHERE num_documento = ?";
     
     /**
      * Metodo encargado de insertar un nuevo usuario en la BD
@@ -37,6 +41,60 @@ public class UsuariosDao {
             preparedStm.setString(index++, usuario.getTelefono());
             preparedStm.setString(index++, usuario.getEmail());
             preparedStm.setString(index++, usuario.getDireccion());
+            preparedStm.executeUpdate();
+        } finally {
+            Conexion.closeConnection(preparedStm, conn);
+        }
+    }
+    
+    /**
+     * Metodo encargado de consultar todos los usuarios de la BD
+     * @return
+     * @throws SQLException 
+     */
+    public List<UsuarioDTO> findAll() throws SQLException {
+        List<UsuarioDTO> listUsuarios = new ArrayList<>();
+        UsuarioDTO usuarioDto = null;
+        Connection conn = null;
+        ResultSet resultado = null;
+        PreparedStatement preparedStm = null;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(findAll);
+            resultado = preparedStm.executeQuery();
+            
+            while(resultado.next()) {
+                usuarioDto = new UsuarioDTO();
+                usuarioDto.setTipoDocumento(resultado.getString("nomenclatura"));
+                usuarioDto.setNumDocumento(resultado.getString("num_documento"));
+                usuarioDto.setNombre(resultado.getString("nombre_persona"));
+                usuarioDto.setApellido(resultado.getString("apellido"));
+                usuarioDto.setTelefono(resultado.getString("telefono"));
+                usuarioDto.setEmail(resultado.getString("email"));
+                usuarioDto.setDireccion(resultado.getString("direccion"));
+                listUsuarios.add(usuarioDto);
+            }
+        } finally {
+            Conexion.closeConnection(resultado, preparedStm, conn);
+        }
+        return listUsuarios;
+    }
+    
+    /**
+     * Metodo encargado de eliminar un usuario de la BD
+     * @param numDocumento
+     * @throws SQLException 
+     */
+    public void deleteUsuario(String numDocumento) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStm = null;
+        int index = 1;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(deleteUsuario);
+            preparedStm.setString(index++, numDocumento);
             preparedStm.executeUpdate();
         } finally {
             Conexion.closeConnection(preparedStm, conn);

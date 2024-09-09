@@ -19,7 +19,8 @@ CREATE TABLE Libros (
 
 CREATE TABLE Tipo_Documento (
     id_documento INT AUTO_INCREMENT PRIMARY KEY,
-    documento_identidad VARCHAR(100)
+    documento_identidad VARCHAR(100),
+    nomenclatura VARCHAR(5)
 );
 
 CREATE TABLE Personas (

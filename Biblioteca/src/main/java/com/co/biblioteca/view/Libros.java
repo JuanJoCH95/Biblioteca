@@ -1,16 +1,17 @@
 package com.co.biblioteca.view;
 
 import com.co.biblioteca.controller.LibrosManager;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Libros extends javax.swing.JPanel {
     
     public Libros() {
         initComponents();
-        LoadLibros();
+        loadLibros();
     }
     
-    private void LoadLibros() {
+    private void loadLibros() {
         LibrosManager librosManager = new LibrosManager();
         DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
         librosManager.listarLibros().forEach((lib) -> model.addRow(
@@ -73,6 +74,11 @@ public class Libros extends javax.swing.JPanel {
         btnEliminar.setText("Eliminar");
         btnEliminar.setBorderPainted(false);
         btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,6 +142,20 @@ public class Libros extends javax.swing.JPanel {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         Dashboard.ShowJpanel(new NewLibro());
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea eliminar el libro seleccionado?", "AVISO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        
+        if(confirm == JOptionPane.YES_OPTION) {
+            LibrosManager librosManager = new LibrosManager();
+            DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
+            
+            for(int i : tblDatos.getSelectedRows()) {
+                librosManager.eliminarLibro((int) tblDatos.getValueAt(i, 0));
+                model.removeRow(i);
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

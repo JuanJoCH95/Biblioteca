@@ -19,6 +19,7 @@ public class LibrosDao {
     private static final String insertLibro = "INSERT INTO libros (nombre_libro, autor, id_genero, stock, disponibles) VALUES (?, ?, ?, ?, ?)";
     private static final String validateLibro = "SELECT id_libro, nombre_libro FROM libros WHERE nombre_libro like (?)";
     private static final String findAll = "SELECT lb.id_libro, lb.nombre_libro, lb.autor, tg.nombre_genero, lb.stock, lb.disponibles FROM libros lb INNER JOIN tipo_genero tg ON lb.id_genero = tg.id_genero";
+    private static final String deleteLibro = "DELETE FROM libros WHERE id_libro = ?";
     
     /**
      * Metodo encargado de insertar un nuevo libro en la BD
@@ -75,6 +76,26 @@ public class LibrosDao {
             Conexion.closeConnection(resultado, preparedStm, conn);
         }
         return listLibros;
+    }
+    
+    /**
+     * Metodo encargado de eliminar un libro de la BD
+     * @param idLibro
+     * @throws SQLException 
+     */
+    public void deleteLibro(int idLibro) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStm = null;
+        int index = 1;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(deleteLibro);
+            preparedStm.setInt(index++, idLibro);
+            preparedStm.executeUpdate();
+        } finally {
+            Conexion.closeConnection(preparedStm, conn);
+        }
     }
     
     /**

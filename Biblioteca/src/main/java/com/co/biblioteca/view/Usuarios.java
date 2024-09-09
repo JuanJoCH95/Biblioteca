@@ -1,9 +1,21 @@
 package com.co.biblioteca.view;
 
+import com.co.biblioteca.controller.UsuariosManager;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class Usuarios extends javax.swing.JPanel {
     
     public Usuarios() {
         initComponents();
+        loadUsuarios();
+    }
+    
+    private void loadUsuarios() {
+        UsuariosManager usuariosManager = new UsuariosManager();
+        DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
+        usuariosManager.listarUsuarios().forEach((user) -> model.addRow(
+                new Object[] {user.getTipoDocumento(), user.getNumDocumento(), user.getNombre() + " " + user.getApellido(), user.getTelefono(), user.getEmail(), user.getDireccion()}));
     }
     
     @SuppressWarnings("unchecked")
@@ -55,6 +67,11 @@ public class Usuarios extends javax.swing.JPanel {
         btnEditar.setText("Editar");
         btnEditar.setBorderPainted(false);
         btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setBackground(new java.awt.Color(51, 51, 51));
         btnEliminar.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -62,16 +79,18 @@ public class Usuarios extends javax.swing.JPanel {
         btnEliminar.setText("Eliminar");
         btnEliminar.setBorderPainted(false);
         btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Tipo", "Documento", "Nombre", "Teléfono", "Email", "Dirección"
             }
         ));
         jScrollPane1.setViewportView(tblDatos);
@@ -128,6 +147,24 @@ public class Usuarios extends javax.swing.JPanel {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         Dashboard.ShowJpanel(new NewUsuario());
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea eliminar el usuario seleccionado?", "AVISO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        
+        if(confirm == JOptionPane.YES_OPTION) {
+            UsuariosManager usuariosManager = new UsuariosManager();
+            DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
+        
+            for(int i : tblDatos.getSelectedRows()) {
+                usuariosManager.eliminarUsuario(tblDatos.getValueAt(i, 1).toString());
+                model.removeRow(i);
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
