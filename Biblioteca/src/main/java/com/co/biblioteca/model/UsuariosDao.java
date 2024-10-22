@@ -17,9 +17,12 @@ import java.util.List;
 public class UsuariosDao {
     
     private static final String insertUsuario = "INSERT INTO personas (id_documento, num_documento, nombre_persona, apellido, telefono, email, direccion) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String validateUsuario = "SELECT id_documento, num_documento FROM personas WHERE id_documento = ? AND num_documento = ?";
+    private static final String validateUsuario = "SELECT id_persona FROM personas WHERE num_documento = ?";
     private static final String findAll = "SELECT td.nomenclatura, p.num_documento, p.nombre_persona, p.apellido, p.telefono, p.email, p.direccion FROM personas p INNER JOIN tipo_documento td ON p.id_documento = td.id_documento";
     private static final String deleteUsuario = "DELETE FROM personas WHERE num_documento = ?";
+    private static final String findUsuario = "SELECT id_persona, id_documento, num_documento, nombre_persona, apellido, telefono, email, direccion FROM personas WHERE num_documento = ?";
+    private static final String updateUsuario = "UPDATE personas SET id_documento = ?, num_documento = ?, nombre_persona = ?, apellido = ?, telefono = ?, email = ?, direccion = ? WHERE id_persona = ?";
+    
     
     /**
      * Metodo encargado de insertar un nuevo usuario en la BD
@@ -102,13 +105,75 @@ public class UsuariosDao {
     }
     
     /**
+     * Metodo encargado de actualizar un usuario en la BD
+     * @param usuario
+     * @throws SQLException 
+     */
+    public void updateUsuario(UsuarioDTO usuario) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStm = null;
+        int index = 1;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(updateUsuario);
+            preparedStm.setInt(index++, usuario.getIdTipoDocumento());
+            preparedStm.setString(index++, usuario.getNumDocumento());
+            preparedStm.setString(index++, usuario.getNombre());
+            preparedStm.setString(index++, usuario.getApellido());
+            preparedStm.setString(index++, usuario.getTelefono());
+            preparedStm.setString(index++, usuario.getEmail());
+            preparedStm.setString(index++, usuario.getDireccion());
+            preparedStm.setInt(index++, usuario.getIdUsuario());
+            preparedStm.executeUpdate();
+        } finally {
+            Conexion.closeConnection(preparedStm, conn);
+        }
+    }
+    
+    /**
+     * Metodo encargado de consultar un usuario en la BD
+     * @return
+     * @throws SQLException 
+     */
+    public UsuarioDTO findUsuario(String numDocumento) throws SQLException {
+        UsuarioDTO usuarioDto = null;
+        Connection conn = null;
+        ResultSet resultado = null;
+        PreparedStatement preparedStm = null;
+        int index = 1;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(findUsuario);
+            preparedStm.setString(index++, numDocumento);
+            resultado = preparedStm.executeQuery();
+            
+            if(resultado.next()) {
+                usuarioDto = new UsuarioDTO();
+                usuarioDto.setIdUsuario(resultado.getInt("id_persona"));
+                usuarioDto.setIdTipoDocumento(resultado.getInt("id_documento"));
+                usuarioDto.setNumDocumento(resultado.getString("num_documento"));
+                usuarioDto.setNombre(resultado.getString("nombre_persona"));
+                usuarioDto.setApellido(resultado.getString("apellido"));
+                usuarioDto.setTelefono(resultado.getString("telefono"));
+                usuarioDto.setEmail(resultado.getString("email"));
+                usuarioDto.setDireccion(resultado.getString("direccion"));
+            }
+        } finally {
+            Conexion.closeConnection(resultado, preparedStm, conn);
+        }
+        return usuarioDto;
+    }
+    
+    /**
      * Metodo encargado de validar si un usuario ya existe en la BD
      * @param idDocumento
      * @param numDocumento
      * @return
      * @throws SQLException 
      */
-    public boolean validateUsuario(int idDocumento, String numDocumento) throws SQLException {
+    public boolean validateUsuario(String numDocumento) throws SQLException {
         boolean usuarioExiste = false;
         Connection conn = null;
         ResultSet resultado = null;
@@ -118,7 +183,6 @@ public class UsuariosDao {
         try {
             conn = Conexion.conectarBD();
             preparedStm = conn.prepareStatement(validateUsuario);
-            preparedStm.setInt(index++, idDocumento);
             preparedStm.setString(index++, numDocumento);
             resultado = preparedStm.executeQuery();
             

@@ -6,8 +6,18 @@ import javax.swing.JOptionPane;
 
 public class NewUsuario extends javax.swing.JPanel {
     
+    private boolean isEdit = false;
+    private UsuarioDTO usuario = null;
+    
     public NewUsuario() {
         initComponents();
+    }
+    
+    public NewUsuario(UsuarioDTO usuario) {
+        initComponents();
+        this.usuario = usuario;
+        isEdit = true;
+        editarUsuario();
     }
     
     private void limpiar() {
@@ -19,6 +29,16 @@ public class NewUsuario extends javax.swing.JPanel {
         jtxEmail.setText("");
         jtxDireccion.setText("");
         cbxTipoDoc.requestFocus();
+    }
+    
+    private void editarUsuario() {
+        cbxTipoDoc.setSelectedIndex(usuario.getIdTipoDocumento());
+        jtxNumDoc.setText(usuario.getNumDocumento());
+        jtxNombre.setText(usuario.getNombre());
+        jtxApellido.setText(usuario.getApellido());
+        jtxTelefono.setText(usuario.getTelefono());
+        jtxEmail.setText(usuario.getEmail());
+        jtxDireccion.setText(usuario.getDireccion());
     }
     
     @SuppressWarnings("unchecked")
@@ -192,7 +212,7 @@ public class NewUsuario extends javax.swing.JPanel {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         UsuariosManager usuariosManager = new UsuariosManager();
-        UsuarioDTO usuarioDto = new UsuarioDTO();
+        UsuarioDTO usuarioDto = isEdit ? usuario : new UsuarioDTO();
         
         usuarioDto.setIdTipoDocumento(cbxTipoDoc.getSelectedIndex());
         usuarioDto.setNumDocumento(jtxNumDoc.getText());
@@ -203,8 +223,12 @@ public class NewUsuario extends javax.swing.JPanel {
         usuarioDto.setDireccion(jtxDireccion.getText());
         
         if(usuariosManager.validarDatos(usuarioDto)) {
-            usuariosManager.registrarUsuario(usuarioDto);
-            limpiar();
+            if(isEdit) {
+                usuariosManager.editarUsuario(usuarioDto);
+            } else {
+                usuariosManager.registrarUsuario(usuarioDto);
+                limpiar();
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos obligatorios", "AVISO", JOptionPane.INFORMATION_MESSAGE);
         }

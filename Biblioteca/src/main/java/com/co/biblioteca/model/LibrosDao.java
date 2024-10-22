@@ -17,9 +17,11 @@ import java.util.List;
 public class LibrosDao {
     
     private static final String insertLibro = "INSERT INTO libros (nombre_libro, autor, id_genero, stock, disponibles) VALUES (?, ?, ?, ?, ?)";
-    private static final String validateLibro = "SELECT id_libro, nombre_libro FROM libros WHERE nombre_libro like (?)";
+    private static final String validateLibro = "SELECT id_libro FROM libros WHERE nombre_libro like (?)";
     private static final String findAll = "SELECT lb.id_libro, lb.nombre_libro, lb.autor, tg.nombre_genero, lb.stock, lb.disponibles FROM libros lb INNER JOIN tipo_genero tg ON lb.id_genero = tg.id_genero";
     private static final String deleteLibro = "DELETE FROM libros WHERE id_libro = ?";
+    private static final String findLibro = "SELECT id_libro, nombre_libro, autor, id_genero, stock, disponibles FROM libros WHERE id_libro = ?";
+    private static final String updateLibro = "UPDATE libros SET nombre_libro = ?, autor = ?, id_genero = ?, stock = ?, disponibles = ? WHERE id_libro = ?";
     
     /**
      * Metodo encargado de insertar un nuevo libro en la BD
@@ -96,6 +98,65 @@ public class LibrosDao {
         } finally {
             Conexion.closeConnection(preparedStm, conn);
         }
+    }
+    
+    /**
+     * Metodo encargado de actualizar un libro en la BD
+     * @param libro
+     * @throws SQLException 
+     */
+    public void updateLibro(LibroDTO libro) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStm = null;
+        int index = 1;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(updateLibro);
+            preparedStm.setString(index++, libro.getNombreLibro());
+            preparedStm.setString(index++, libro.getAutor());
+            preparedStm.setInt(index++, libro.getIdGenero());
+            preparedStm.setInt(index++, libro.getStock());
+            preparedStm.setInt(index++, libro.getDisponibles());
+            preparedStm.setInt(index++, libro.getIdLibro());
+            preparedStm.executeUpdate();
+	} finally {
+            Conexion.closeConnection(preparedStm, conn);
+	}
+    }
+    
+    /**
+     * Metodo encargado de consultar un libro en la BD
+     * @param idLibro
+     * @return
+     * @throws SQLException 
+     */
+    public LibroDTO findLibro(int idLibro) throws SQLException {
+        LibroDTO libro = null;
+        Connection conn = null;
+        ResultSet resultado = null;
+        PreparedStatement preparedStm = null;
+        int index = 1;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(findLibro);
+            preparedStm.setInt(index++, idLibro);
+            resultado = preparedStm.executeQuery();
+            
+            if(resultado.next()) {
+                libro = new LibroDTO();
+                libro.setIdLibro(resultado.getInt("id_libro"));
+                libro.setNombreLibro(resultado.getString("nombre_libro"));
+                libro.setAutor(resultado.getString("autor"));
+                libro.setIdGenero(resultado.getInt("id_genero"));
+                libro.setStock(resultado.getInt("stock"));
+                libro.setDisponibles(resultado.getInt("disponibles"));
+            }
+        } finally {
+            Conexion.closeConnection(resultado, preparedStm, conn);
+        }
+        return libro;
     }
     
     /**

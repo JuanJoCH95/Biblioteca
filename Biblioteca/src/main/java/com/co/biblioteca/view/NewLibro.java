@@ -6,8 +6,18 @@ import com.co.biblioteca.dto.LibroDTO;
 
 public class NewLibro extends javax.swing.JPanel {
     
+    private boolean isEdit = false;
+    private LibroDTO libro = null;
+    
     public NewLibro() {
         initComponents();
+    }
+    
+    public NewLibro(LibroDTO libro) {
+        initComponents();
+        this.libro = libro;
+        isEdit = true;
+        editarLibro();
     }
     
     private void limpiar() {
@@ -17,6 +27,14 @@ public class NewLibro extends javax.swing.JPanel {
         jtxNombre.setText("");
         jtxStock.setText("");
         jtxNombre.requestFocus();
+    }
+    
+    private void editarLibro() {
+        jtxNombre.setText(libro.getNombreLibro());
+        jtxAutor.setText(libro.getAutor());
+        cbxGenero.setSelectedIndex(libro.getIdGenero());
+        jtxStock.setText(Integer.toString(libro.getStock()));
+        jtxDisponibles.setText(Integer.toString(libro.getDisponibles()));
     }
     
     @SuppressWarnings("unchecked")
@@ -147,7 +165,7 @@ public class NewLibro extends javax.swing.JPanel {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         LibrosManager librosManager = new LibrosManager();
-        LibroDTO libroDto = new LibroDTO();
+        LibroDTO libroDto = isEdit ? libro : new LibroDTO();
         
         libroDto.setNombreLibro(jtxNombre.getText());
         libroDto.setAutor(jtxAutor.getText());
@@ -156,8 +174,12 @@ public class NewLibro extends javax.swing.JPanel {
         libroDto.setDisponibles(!(jtxDisponibles.getText().isEmpty()) ? Integer.parseInt(jtxDisponibles.getText()) : 0);
         
         if(librosManager.validarDatos(libroDto)) {
-            librosManager.registrarLibro(libroDto);
-            limpiar();
+            if(isEdit) {
+                librosManager.editarLibro(libroDto);
+            } else {
+                librosManager.registrarLibro(libroDto);
+                limpiar();
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos", "AVISO", JOptionPane.INFORMATION_MESSAGE);
         }

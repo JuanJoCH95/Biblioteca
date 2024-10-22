@@ -1,6 +1,7 @@
 package com.co.biblioteca.view;
 
 import com.co.biblioteca.controller.UsuariosManager;
+import com.co.biblioteca.dto.UsuarioDTO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -94,6 +95,11 @@ public class Usuarios extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(tblDatos);
+        if (tblDatos.getColumnModel().getColumnCount() > 0) {
+            tblDatos.getColumnModel().getColumn(0).setPreferredWidth(8);
+            tblDatos.getColumnModel().getColumn(1).setPreferredWidth(20);
+            tblDatos.getColumnModel().getColumn(3).setPreferredWidth(25);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -149,21 +155,27 @@ public class Usuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int confirm = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea eliminar el usuario seleccionado?", "AVISO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if(tblDatos.getSelectedRow() > -1) {
+            int confirm = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea eliminar el usuario seleccionado?", "AVISO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         
-        if(confirm == JOptionPane.YES_OPTION) {
-            UsuariosManager usuariosManager = new UsuariosManager();
-            DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
-        
-            for(int i : tblDatos.getSelectedRows()) {
-                usuariosManager.eliminarUsuario(tblDatos.getValueAt(i, 1).toString());
-                model.removeRow(i);
+            if(confirm == JOptionPane.YES_OPTION) {
+                UsuariosManager usuariosManager = new UsuariosManager();
+                DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
+                
+                for(int i : tblDatos.getSelectedRows()) {
+                    usuariosManager.eliminarUsuario(tblDatos.getValueAt(i, 1).toString());
+                    model.removeRow(i);
+                }
             }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        
+        if(tblDatos.getSelectedRow() > -1) {
+            UsuariosManager usuariosManager = new UsuariosManager();
+            UsuarioDTO usuario = usuariosManager.consultarUsuario(tblDatos.getValueAt(tblDatos.getSelectedRow(), 1).toString());
+            Dashboard.ShowJpanel(new NewUsuario(usuario));
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

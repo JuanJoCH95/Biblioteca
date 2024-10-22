@@ -77,4 +77,35 @@ public class LibrosManager {
             JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    /**
+     * Metodo encargado de editar un libro
+     * @param libro 
+     */
+    public void editarLibro(LibroDTO libro) {
+        try {
+            libroDao.updateLibro(libro);
+            JOptionPane.showMessageDialog(null, "La información del libro ha sido actualizada con exito", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Metodo encargado de consultar un libro especifico
+     * @param idLibro
+     * @return 
+     */
+    public LibroDTO consultarLibro(int idLibro) {
+        LibroDTO libro = null;
+        
+        try {
+            libro = libroDao.findLibro(idLibro);
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        return libro;
+    }
 }

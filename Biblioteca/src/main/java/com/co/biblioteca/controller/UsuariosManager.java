@@ -36,11 +36,11 @@ public class UsuariosManager {
      */
     public void registrarUsuario(UsuarioDTO usuario) {
         try {
-            if(!usuarioDao.validateUsuario(usuario.getIdTipoDocumento(), usuario.getNumDocumento())) {
+            if(!usuarioDao.validateUsuario(usuario.getNumDocumento())) {
                 usuarioDao.insertUsuario(usuario);
                 JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente!", "AVISO", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Ya existe un usuario con el mismo numero de documento registrado en el sistema", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ya existe un usuario con el numero de documento " + usuario.getNumDocumento() + " registrado en el sistema", "AVISO", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception ex) {
             System.out.print(ex.getMessage());
@@ -76,5 +76,36 @@ public class UsuariosManager {
             System.out.print(ex.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    /**
+     * Metodo encargado de editar un usuario
+     * @param usuario 
+     */
+    public void editarUsuario(UsuarioDTO usuario) {
+        try {
+            usuarioDao.updateUsuario(usuario);
+            JOptionPane.showMessageDialog(null, "La información del usuario ha sido actualizada con exito", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Metodo encargado de consultar un usuario especifico
+     * @param numDocumento
+     * @return 
+     */
+    public UsuarioDTO consultarUsuario(String numDocumento) {
+        UsuarioDTO usuario = null;
+        
+        try {
+            usuario = usuarioDao.findUsuario(numDocumento);
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        return usuario;
     }
 }

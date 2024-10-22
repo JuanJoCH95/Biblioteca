@@ -1,6 +1,7 @@
 package com.co.biblioteca.view;
 
 import com.co.biblioteca.controller.LibrosManager;
+import com.co.biblioteca.dto.LibroDTO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -67,6 +68,11 @@ public class Libros extends javax.swing.JPanel {
         btnEditar.setText("Editar");
         btnEditar.setBorderPainted(false);
         btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setBackground(new java.awt.Color(51, 51, 51));
         btnEliminar.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -89,6 +95,11 @@ public class Libros extends javax.swing.JPanel {
             }
         ));
         jScrollPane1.setViewportView(tblDatos);
+        if (tblDatos.getColumnModel().getColumnCount() > 0) {
+            tblDatos.getColumnModel().getColumn(0).setPreferredWidth(8);
+            tblDatos.getColumnModel().getColumn(4).setPreferredWidth(8);
+            tblDatos.getColumnModel().getColumn(5).setPreferredWidth(8);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -144,18 +155,28 @@ public class Libros extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int confirm = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea eliminar el libro seleccionado?", "AVISO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if(tblDatos.getSelectedRow() > -1) {
+            int confirm = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea eliminar el libro seleccionado?", "AVISO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         
-        if(confirm == JOptionPane.YES_OPTION) {
-            LibrosManager librosManager = new LibrosManager();
-            DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
+            if(confirm == JOptionPane.YES_OPTION) {
+                LibrosManager librosManager = new LibrosManager();
+                DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
             
-            for(int i : tblDatos.getSelectedRows()) {
-                librosManager.eliminarLibro((int) tblDatos.getValueAt(i, 0));
-                model.removeRow(i);
+                for(int i : tblDatos.getSelectedRows()) {
+                    librosManager.eliminarLibro((int) tblDatos.getValueAt(i, 0));
+                    model.removeRow(i);
+                }
             }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if(tblDatos.getSelectedRow() > -1) {
+            LibrosManager librosManager = new LibrosManager();
+            LibroDTO libro = librosManager.consultarLibro((int) tblDatos.getValueAt(tblDatos.getSelectedRow(), 0));
+            Dashboard.ShowJpanel(new NewLibro(libro));
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

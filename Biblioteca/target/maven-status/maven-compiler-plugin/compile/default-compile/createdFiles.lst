@@ -2,6 +2,7 @@ com\co\biblioteca\view\Libros$1.class
 com\co\biblioteca\controller\UsuariosManager.class
 com\co\biblioteca\view\Dashboard$1.class
 com\co\biblioteca\view\Dashboard$3.class
+com\co\biblioteca\view\Libros$3.class
 com\co\biblioteca\view\Usuarios$2.class
 com\co\biblioteca\dto\LibroDTO.class
 com\co\biblioteca\view\Dashboard.class
@@ -26,4 +27,5 @@ com\co\biblioteca\view\Dashboard$2.class
 com\co\biblioteca\model\UsuariosDao.class
 com\co\biblioteca\view\NewLibro$1.class
 com\co\biblioteca\view\Dashboard$5.class
+com\co\biblioteca\view\Principal$1.class
 com\co\biblioteca\db\Conexion.class
