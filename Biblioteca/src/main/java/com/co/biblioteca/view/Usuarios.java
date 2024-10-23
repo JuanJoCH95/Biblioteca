@@ -15,7 +15,7 @@ public class Usuarios extends javax.swing.JPanel {
     private void loadUsuarios() {
         UsuariosManager usuariosManager = new UsuariosManager();
         DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
-        usuariosManager.listarUsuarios().forEach((user) -> model.addRow(
+        usuariosManager.listarUsuarios("").forEach((user) -> model.addRow(
                 new Object[] {user.getTipoDocumento(), user.getNumDocumento(), user.getNombre() + " " + user.getApellido(), user.getTelefono(), user.getEmail(), user.getDireccion()}));
     }
     
@@ -49,6 +49,11 @@ public class Usuarios extends javax.swing.JPanel {
         btnBuscar.setText("Buscar");
         btnBuscar.setBorderPainted(false);
         btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnNuevo.setBackground(new java.awt.Color(51, 51, 51));
         btnNuevo.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -177,6 +182,14 @@ public class Usuarios extends javax.swing.JPanel {
             Dashboard.ShowJpanel(new NewUsuario(usuario));
         }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        UsuariosManager usuariosManager = new UsuariosManager();
+        DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
+        model.setRowCount(0);
+        usuariosManager.listarUsuarios(jtxUsuario.getText()).forEach((user) -> model.addRow(
+                new Object[] {user.getTipoDocumento(), user.getNumDocumento(), user.getNombre() + " " + user.getApellido(), user.getTelefono(), user.getEmail(), user.getDireccion()}));
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

@@ -49,14 +49,14 @@ public class UsuariosManager {
     }
     
     /**
-     * Metodo encargado de listar todos los usuarios
+     * Metodo encargado de listar los usuarios registrados en el sistema
      * @return 
      */
-    public List<UsuarioDTO> listarUsuarios() {
+    public List<UsuarioDTO> listarUsuarios(String numDocumento) {
         List<UsuarioDTO> listaUsuarios = new ArrayList<>();
         
         try {
-            listaUsuarios = usuarioDao.findAll();
+            listaUsuarios = numDocumento.isEmpty() ? usuarioDao.findAll() : usuarioDao.findSpecific(numDocumento);
         } catch (Exception ex) {
             System.out.print(ex.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);

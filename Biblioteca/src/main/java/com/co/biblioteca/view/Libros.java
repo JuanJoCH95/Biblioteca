@@ -15,7 +15,7 @@ public class Libros extends javax.swing.JPanel {
     private void loadLibros() {
         LibrosManager librosManager = new LibrosManager();
         DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
-        librosManager.listarLibros().forEach((lib) -> model.addRow(
+        librosManager.listarLibros("").forEach((lib) -> model.addRow(
                 new Object[] {lib.getIdLibro(), lib.getNombreLibro(), lib.getAutor(), lib.getGenero(), lib.getStock(), lib.getDisponibles()}));
     }
     
@@ -49,6 +49,11 @@ public class Libros extends javax.swing.JPanel {
         btnBuscar.setText("Buscar");
         btnBuscar.setBorderPainted(false);
         btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         btnNuevo.setBackground(new java.awt.Color(51, 51, 51));
         btnNuevo.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -177,6 +182,14 @@ public class Libros extends javax.swing.JPanel {
             Dashboard.ShowJpanel(new NewLibro(libro));
         }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        LibrosManager librosManager = new LibrosManager();
+        DefaultTableModel model = (DefaultTableModel) tblDatos.getModel();
+        model.setRowCount(0);
+        librosManager.listarLibros(jtxLibro.getText()).forEach((lib) -> model.addRow(
+                new Object[] {lib.getIdLibro(), lib.getNombreLibro(), lib.getAutor(), lib.getGenero(), lib.getStock(), lib.getDisponibles()}));
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

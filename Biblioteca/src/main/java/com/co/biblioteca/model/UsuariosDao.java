@@ -17,7 +17,7 @@ import java.util.List;
 public class UsuariosDao {
     
     private static final String insertUsuario = "INSERT INTO personas (id_documento, num_documento, nombre_persona, apellido, telefono, email, direccion) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String validateUsuario = "SELECT id_persona FROM personas WHERE num_documento = ?";
+    private static final String validateUsuario = "SELECT td.nomenclatura, p.num_documento, p.nombre_persona, p.apellido, p.telefono, p.email, p.direccion FROM personas p INNER JOIN tipo_documento td ON p.id_documento = td.id_documento WHERE p.num_documento = ?";
     private static final String findAll = "SELECT td.nomenclatura, p.num_documento, p.nombre_persona, p.apellido, p.telefono, p.email, p.direccion FROM personas p INNER JOIN tipo_documento td ON p.id_documento = td.id_documento";
     private static final String deleteUsuario = "DELETE FROM personas WHERE num_documento = ?";
     private static final String findUsuario = "SELECT id_persona, id_documento, num_documento, nombre_persona, apellido, telefono, email, direccion FROM personas WHERE num_documento = ?";
@@ -164,6 +164,43 @@ public class UsuariosDao {
             Conexion.closeConnection(resultado, preparedStm, conn);
         }
         return usuarioDto;
+    }
+    
+    /**
+     * Metodo encargado de consultar una lista especifica de usuarios en la BD
+     * @param numDocumento
+     * @return
+     * @throws SQLException 
+     */
+    public List<UsuarioDTO> findSpecific(String numDocumento) throws SQLException {
+        List<UsuarioDTO> listUsuarios = new ArrayList<>();
+        UsuarioDTO usuarioDto = null;
+        Connection conn = null;
+        ResultSet resultado = null;
+        PreparedStatement preparedStm = null;
+        int index = 1;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(validateUsuario);
+            preparedStm.setString(index++, numDocumento);
+            resultado = preparedStm.executeQuery();
+            
+            while(resultado.next()) {
+                usuarioDto = new UsuarioDTO();
+                usuarioDto.setTipoDocumento(resultado.getString("nomenclatura"));
+                usuarioDto.setNumDocumento(resultado.getString("num_documento"));
+                usuarioDto.setNombre(resultado.getString("nombre_persona"));
+                usuarioDto.setApellido(resultado.getString("apellido"));
+                usuarioDto.setTelefono(resultado.getString("telefono"));
+                usuarioDto.setEmail(resultado.getString("email"));
+                usuarioDto.setDireccion(resultado.getString("direccion"));
+                listUsuarios.add(usuarioDto);
+            }
+        } finally {
+            Conexion.closeConnection(resultado, preparedStm, conn);
+        }
+        return listUsuarios;
     }
     
     /**

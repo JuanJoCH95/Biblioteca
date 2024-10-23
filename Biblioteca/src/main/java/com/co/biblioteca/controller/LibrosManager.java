@@ -49,14 +49,14 @@ public class LibrosManager {
     }
     
     /**
-     * Metodo encargado de listar todos los libros
+     * Metodo encargado de listar los libros registrados en el sistema
      * @return 
      */
-    public List<LibroDTO> listarLibros() {
+    public List<LibroDTO> listarLibros(String name) {
         List<LibroDTO> listaLibros = new ArrayList<>();
         
         try {
-            listaLibros = libroDao.findAll();
+            listaLibros = name.isEmpty() ? libroDao.findAll() : libroDao.findSpecific(name);
         } catch (Exception ex) {
             System.out.print(ex.getMessage());
             JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
