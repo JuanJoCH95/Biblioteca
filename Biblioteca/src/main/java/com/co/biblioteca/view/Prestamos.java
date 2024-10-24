@@ -1,5 +1,7 @@
 package com.co.biblioteca.view;
 
+import com.co.biblioteca.controller.PrestamosManager;
+
 public class Prestamos extends javax.swing.JPanel {
     
     public Prestamos() {
@@ -51,6 +53,11 @@ public class Prestamos extends javax.swing.JPanel {
         btnPrestar.setText("Prestar");
         btnPrestar.setBorderPainted(false);
         btnPrestar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPrestar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrestarActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setBackground(new java.awt.Color(204, 204, 204));
         jSeparator1.setForeground(new java.awt.Color(204, 204, 204));
@@ -106,6 +113,13 @@ public class Prestamos extends javax.swing.JPanel {
                         .addGap(61, 61, 61))))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPrestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrestarActionPerformed
+        PrestamosManager prestamo = new PrestamosManager();
+        prestamo.realizarPrestamo(jtxUsuario.getText(), jtxLibro.getText());
+        jtxUsuario.setText("");
+        jtxLibro.setText("");
+    }//GEN-LAST:event_btnPrestarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPrestar;

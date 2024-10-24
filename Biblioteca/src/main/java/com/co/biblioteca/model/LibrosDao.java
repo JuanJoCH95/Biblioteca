@@ -22,6 +22,7 @@ public class LibrosDao {
     private static final String deleteLibro = "DELETE FROM libros WHERE id_libro = ?";
     private static final String findLibro = "SELECT id_libro, nombre_libro, autor, id_genero, stock, disponibles FROM libros WHERE id_libro = ?";
     private static final String updateLibro = "UPDATE libros SET nombre_libro = ?, autor = ?, id_genero = ?, stock = ?, disponibles = ? WHERE id_libro = ?";
+    private static final String findDisponibles = "SELECT disponibles FROM libros WHERE id_libro = ?";
     
     /**
      * Metodo encargado de insertar un nuevo libro en la BD
@@ -193,6 +194,34 @@ public class LibrosDao {
             Conexion.closeConnection(resultado, preparedStm, conn);
         }
         return listLibros;
+    }
+    
+    /**
+     * Metodo encargado de consultar la cantidad de disponibles por libro
+     * @param idLibro
+     * @return
+     * @throws SQLException 
+     */
+    public int findDisponibles(int idLibro) throws SQLException {
+        int disponibles = 0;
+        Connection conn = null;
+        ResultSet resultado = null;
+        PreparedStatement preparedStm = null;
+        int index = 1;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(findDisponibles);
+            preparedStm.setInt(index++, idLibro);
+            resultado = preparedStm.executeQuery();
+            
+            if(resultado.next()) {
+                disponibles = resultado.getInt("disponibles");
+            }
+        } finally {
+            Conexion.closeConnection(resultado, preparedStm, conn);
+        }
+        return disponibles;
     }
     
     /**
