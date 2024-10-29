@@ -1,5 +1,7 @@
 package com.co.biblioteca.view;
 
+import com.co.biblioteca.controller.DevolucionesManager;
+
 public class Devoluciones extends javax.swing.JPanel {
     
     public Devoluciones() {
@@ -51,6 +53,11 @@ public class Devoluciones extends javax.swing.JPanel {
         btnDevolver.setText("Devolver");
         btnDevolver.setBorderPainted(false);
         btnDevolver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDevolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDevolverActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setBackground(new java.awt.Color(204, 204, 204));
         jSeparator1.setForeground(new java.awt.Color(204, 204, 204));
@@ -106,6 +113,13 @@ public class Devoluciones extends javax.swing.JPanel {
                         .addGap(61, 61, 61))))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverActionPerformed
+        DevolucionesManager devolucion = new DevolucionesManager();
+        devolucion.devolverLibro(jtxUsuario.getText(), jtxLibro.getText());
+        jtxUsuario.setText("");
+        jtxLibro.setText("");
+    }//GEN-LAST:event_btnDevolverActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDevolver;

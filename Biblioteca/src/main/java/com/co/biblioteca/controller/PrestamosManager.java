@@ -8,7 +8,13 @@ import com.co.biblioteca.model.PrestamosDao;
 import com.co.biblioteca.model.UsuariosDao;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 import javax.swing.JOptionPane;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.InternetAddress;
 
 /**
  * Clase que contiene la logica de negocio necesaria para gestionar el modulo de prestamos
@@ -73,13 +79,14 @@ public class PrestamosManager {
                 prestamo.setIdPersona(usuarioDto.getIdUsuario());
                 prestamo.setIdLibro(Integer.parseInt(libro));
                 prestamo.setFechaInicio(getFechaActual());
-                prestamo.setEstado("A");
+                prestamo.setEstado("Activo");
                 prestamoDao.insertPrestamo(prestamo);
                 
                 libroDto.setDisponibles(libroDto.getDisponibles() - 1);
                 libroDao.updateLibro(libroDto);
                 
                 JOptionPane.showMessageDialog(null, "El prestamo se ha realizado exitosamente!", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                notificarEmail(usuarioDto, libroDto);
             } catch (Exception ex) {
                 System.out.print(ex.getMessage());
                 JOptionPane.showMessageDialog(null, "Ocurrio un error inesperado en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -95,5 +102,43 @@ public class PrestamosManager {
         Date fechaActual = new Date();
         SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
         return formato.format(fechaActual);
+    }
+    
+    private void notificarEmail(UsuarioDTO usuarioDto, LibroDTO libroDto) {
+        String email = "juancardonah1017@gmail.com";
+        String password = "qqnnkhaujrhbbcxy";
+        String emailTo = usuarioDto.getEmail();
+        String asunto = "Prestamo de libros - MyLib";
+        String mensaje = usuarioDto.getNombre() + " " + usuarioDto.getApellido()
+                + ", usted ha realizado el prestamo de un libro a traves del sistema MyLib. \n"
+                + "Nombre del libro: " + libroDto.getNombreLibro() + "\n" + "Fecha: " + getFechaActual() + "\n"
+                + "Recuerde que tiene 20 días a partir de la fecha.";
+        
+        Properties prop = new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        prop.setProperty("mail.smtp.starttls.enable", "true");
+        prop.setProperty("mail.smtp.port", "587");
+        prop.setProperty("mail.smtp.user", email);
+        prop.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        prop.setProperty("mail.smtp.auth", "true");
+        
+        Session mSession;
+        mSession = Session.getDefaultInstance(prop);
+        
+        try {
+            MimeMessage mCorreo = new MimeMessage(mSession);
+            mCorreo.setFrom(new InternetAddress(email));
+            mCorreo.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+            mCorreo.setSubject(asunto);
+            mCorreo.setText(mensaje, "ISO-8859-1", "html");
+            
+            Transport mTransport = mSession.getTransport("smtp");
+            mTransport.connect(email, password);
+            mTransport.sendMessage(mCorreo, mCorreo.getRecipients(Message.RecipientType.TO));
+            mTransport.close();
+        } catch (Exception ex) {
+            System.out.print(ex.getMessage());
+        }
     }
 }
