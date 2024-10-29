@@ -104,6 +104,11 @@ public class PrestamosManager {
         return formato.format(fechaActual);
     }
     
+    /**
+     * Metodo encargado de notificar por email al usuario cuando realiza un prestamo
+     * @param usuarioDto
+     * @param libroDto 
+     */
     private void notificarEmail(UsuarioDTO usuarioDto, LibroDTO libroDto) {
         String email = "juancardonah1017@gmail.com";
         String password = "qqnnkhaujrhbbcxy";
