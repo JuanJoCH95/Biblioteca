@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class PrestamosDao {
     
     private static final String insertPrestamo = "INSERT INTO prestamos (id_persona, id_libro, fecha_inicio, estado) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y'), ?)";
-    private static final String findPrestamo = "SELECT * FROM prestamos WHERE id_persona = ? AND id_libro = ?";
+    private static final String findPrestamo = "SELECT * FROM prestamos WHERE id_persona = ? AND id_libro = ? AND estado = ?";
     private static final String updateLibro = "UPDATE prestamos SET fecha_fin = STR_TO_DATE(?, '%d-%m-%Y'), estado = ? WHERE id_prestamo = ?";
     
     /**
@@ -59,6 +59,7 @@ public class PrestamosDao {
             preparedStm = conn.prepareStatement(findPrestamo);
             preparedStm.setInt(index++, prestamo.getIdPersona());
             preparedStm.setInt(index++, prestamo.getIdLibro());
+            preparedStm.setString(index++, "Activo");
             resultado = preparedStm.executeQuery();
             
             if(resultado.next()) {

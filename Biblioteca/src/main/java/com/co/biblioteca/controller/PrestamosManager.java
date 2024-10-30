@@ -115,9 +115,9 @@ public class PrestamosManager {
         String emailTo = usuarioDto.getEmail();
         String asunto = "Prestamo de libros - MyLib";
         String mensaje = usuarioDto.getNombre() + " " + usuarioDto.getApellido()
-                + ", usted ha realizado el prestamo de un libro a traves del sistema MyLib. \n"
-                + "Nombre del libro: " + libroDto.getNombreLibro() + "\n" + "Fecha: " + getFechaActual() + "\n"
-                + "Recuerde que tiene 20 días a partir de la fecha.";
+                + ", usted ha realizado el prestamo de un libro a traves del sistema MyLib. <br>"
+                + "<b>Nombre del libro:</b> " + libroDto.getNombreLibro() + "<br>" + "<b>Fecha:</b> " + getFechaActual() + "<br>"
+                + "Recuerde que tiene 20 días a partir de la fecha para realizar la devolución, evite sanciones.";
         
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
