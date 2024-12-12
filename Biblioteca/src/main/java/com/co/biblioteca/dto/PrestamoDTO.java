@@ -8,6 +8,9 @@ public class PrestamoDTO {
     private String fechaInicio;
     private String fechaFin;
     private String estado;
+    private String nombreLibro;
+    private String nombrePersona;
+    private String documentoPersona;
 
     public int getIdPrestamo() {
         return idPrestamo;
@@ -55,5 +58,29 @@ public class PrestamoDTO {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+    
+    public String getNombreLibro() {
+        return nombreLibro;
+    }
+
+    public void setNombreLibro(String nombreLibro) {
+        this.nombreLibro = nombreLibro;
+    }
+
+    public String getNombrePersona() {
+        return nombrePersona;
+    }
+
+    public void setNombrePersona(String nombrePersona) {
+        this.nombrePersona = nombrePersona;
+    }
+
+    public String getDocumentoPersona() {
+        return documentoPersona;
+    }
+
+    public void setDocumentoPersona(String documentoPersona) {
+        this.documentoPersona = documentoPersona;
     }
 }

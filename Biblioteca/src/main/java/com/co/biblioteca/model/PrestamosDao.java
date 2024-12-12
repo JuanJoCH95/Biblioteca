@@ -42,7 +42,7 @@ public class PrestamosDao {
     }
     
     /**
-     * Metodo encargado de consultar un prestamo en la BD
+     * Metodo encargado de consultar un prestamo activo en la BD
      * @param prestamo
      * @return
      * @throws SQLException 

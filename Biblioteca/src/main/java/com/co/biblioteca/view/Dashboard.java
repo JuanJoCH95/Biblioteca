@@ -141,6 +141,11 @@ public class Dashboard extends javax.swing.JFrame {
         btnReportes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReportes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnReportes.setIconTextGap(15);
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesActionPerformed(evt);
+            }
+        });
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MyLib_logo.png"))); // NOI18N
 
@@ -294,6 +299,11 @@ public class Dashboard extends javax.swing.JFrame {
         Usuarios usuarios = new Usuarios();
         ShowJpanel(usuarios);
     }//GEN-LAST:event_btnUsuariosActionPerformed
+
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+        Reportes reportes = new Reportes();
+        ShowJpanel(reportes);
+    }//GEN-LAST:event_btnReportesActionPerformed
     
     public static void main(String args[]) {
         //Inicializamos los temas de FlatLaf

@@ -6,7 +6,9 @@ import com.co.biblioteca.dto.UsuarioDTO;
 import com.co.biblioteca.model.LibrosDao;
 import com.co.biblioteca.model.PrestamosDao;
 import com.co.biblioteca.model.UsuariosDao;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import javax.swing.JOptionPane;
@@ -39,19 +41,17 @@ public class PrestamosManager {
                 JOptionPane.showMessageDialog(null, "Debe llenar todos los campos", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                 return false;
             } else {
-                int idLibro = Integer.parseInt(libro);
-                
                 if(usuarioDao.findUsuario(usuario) == null) {
                     JOptionPane.showMessageDialog(null, "No se encontró un usuario en el sistema asociado al documento " + usuario, "AVISO", JOptionPane.INFORMATION_MESSAGE);
                     return false;
                 }
                 
-                if(libroDao.findLibro(idLibro) == null) {
-                    JOptionPane.showMessageDialog(null, "No se encontró un libro en el sistema asociado al ID " + idLibro, "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                if(libroDao.findLibro(Integer.parseInt(libro)) == null) {
+                    JOptionPane.showMessageDialog(null, "No se encontró un libro en el sistema asociado al ID " + libro, "AVISO", JOptionPane.INFORMATION_MESSAGE);
                     return false;
                 }
                 
-                if(libroDao.findDisponibles(idLibro) == 0) {
+                if(libroDao.findDisponibles(Integer.parseInt(libro)) == 0) {
                     JOptionPane.showMessageDialog(null, "El libro seleccionado no se encuentra disponible en el momento" + usuario, "AVISO", JOptionPane.INFORMATION_MESSAGE);
                     return false;
                 }
@@ -105,33 +105,49 @@ public class PrestamosManager {
     }
     
     /**
+     * Metodo encargado de hacer la suma y obtener la fecha de vencimiento del prestamo
+     * @param fecha
+     * @return
+     * @throws ParseException 
+     */
+    private String getFechaVencimiento(String fecha) throws ParseException {
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        Date fechaDate = formato.parse(fecha);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaDate); 
+        calendar.add(Calendar.DAY_OF_YEAR, 20);
+        return formato.format(calendar.getTime());
+    }
+    
+    /**
      * Metodo encargado de notificar por email al usuario cuando realiza un prestamo
      * @param usuarioDto
      * @param libroDto 
      */
     private void notificarEmail(UsuarioDTO usuarioDto, LibroDTO libroDto) {
-        String email = "juancardonah1017@gmail.com";
-        String password = "qqnnkhaujrhbbcxy";
-        String emailTo = usuarioDto.getEmail();
-        String asunto = "Prestamo de libros - MyLib";
-        String mensaje = usuarioDto.getNombre() + " " + usuarioDto.getApellido()
-                + ", usted ha realizado el prestamo de un libro a traves del sistema MyLib. <br>"
-                + "<b>Nombre del libro:</b> " + libroDto.getNombreLibro() + "<br>" + "<b>Fecha:</b> " + getFechaActual() + "<br>"
-                + "Recuerde que tiene 20 días a partir de la fecha para realizar la devolución, evite sanciones.";
-        
-        Properties prop = new Properties();
-        prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-        prop.setProperty("mail.smtp.starttls.enable", "true");
-        prop.setProperty("mail.smtp.port", "587");
-        prop.setProperty("mail.smtp.user", email);
-        prop.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
-        prop.setProperty("mail.smtp.auth", "true");
-        
-        Session mSession;
-        mSession = Session.getDefaultInstance(prop);
-        
         try {
+            String email = "juancardonah1017@gmail.com";
+            String password = "qqnnkhaujrhbbcxy";
+            String emailTo = usuarioDto.getEmail();
+            String asunto = "Prestamo de libros - MyLib";
+            String mensaje = usuarioDto.getNombre() + " " + usuarioDto.getApellido()
+                + ", usted ha realizado el préstamo de un libro a través del sistema MyLib. <br><br>"
+                + "<b>Nombre del libro:</b> " + libroDto.getNombreLibro() + "<br>" + "<b>Fecha del préstamo:</b> " + getFechaActual() + "<br>"
+                + "<b>Fecha de devolución:</b> " + getFechaVencimiento(getFechaActual()) + "<br><br>"
+                + "Recuerde realizar la devolución o renovación antes de la fecha establecida, evite sanciones.";
+        
+            Properties prop = new Properties();
+            prop.put("mail.smtp.host", "smtp.gmail.com");
+            prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            prop.setProperty("mail.smtp.starttls.enable", "true");
+            prop.setProperty("mail.smtp.port", "587");
+            prop.setProperty("mail.smtp.user", email);
+            prop.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+            prop.setProperty("mail.smtp.auth", "true");
+            
+            Session mSession;
+            mSession = Session.getDefaultInstance(prop);
+            
             MimeMessage mCorreo = new MimeMessage(mSession);
             mCorreo.setFrom(new InternetAddress(email));
             mCorreo.setRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
