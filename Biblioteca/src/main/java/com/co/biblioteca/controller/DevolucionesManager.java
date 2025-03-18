@@ -33,11 +33,6 @@ public class DevolucionesManager {
                 JOptionPane.showMessageDialog(null, "Debe llenar todos los campos", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                 return false;
             } else {
-                if(usuarioDao.findUsuario(usuario) == null) {
-                    JOptionPane.showMessageDialog(null, "No se encontró un prestamo asociado los datos ingresados", "AVISO", JOptionPane.INFORMATION_MESSAGE);
-                    return false;
-                }
-                
                 UsuarioDTO usuarioDto = usuarioDao.findUsuario(usuario);
                 PrestamoDTO prestamo = new PrestamoDTO();
                 prestamo.setIdPersona(usuarioDto.getIdUsuario());
@@ -72,7 +67,7 @@ public class DevolucionesManager {
                 prestamo.setIdLibro(Integer.parseInt(libro));
                 prestamo = prestamoDao.findPrestamo(prestamo);
                 
-                prestamo.setFechaFin(getFechaActual());
+                prestamo.setFechaDevolucion(getFechaActual());
                 prestamo.setEstado("Devuelto");
                 prestamoDao.updatePrestamo(prestamo);
                 

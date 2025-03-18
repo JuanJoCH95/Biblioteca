@@ -5,6 +5,7 @@ import com.co.biblioteca.dto.PrestamoDTO;
 import com.co.biblioteca.dto.UsuarioDTO;
 import com.co.biblioteca.model.LibrosDao;
 import com.co.biblioteca.model.PrestamosDao;
+import com.co.biblioteca.model.SancionesDao;
 import com.co.biblioteca.model.UsuariosDao;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +29,7 @@ public class PrestamosManager {
     LibrosDao libroDao = new LibrosDao();
     UsuariosDao usuarioDao = new UsuariosDao();
     PrestamosDao prestamoDao = new PrestamosDao();
+    SancionesDao sancionDao = new SancionesDao();
     
     /**
      * Metodo encargado de validar los campos del formulario
@@ -41,8 +43,13 @@ public class PrestamosManager {
                 JOptionPane.showMessageDialog(null, "Debe llenar todos los campos", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                 return false;
             } else {
-                if(usuarioDao.findUsuario(usuario) == null) {
+                if(!usuarioDao.validateUsuario(usuario)) {
                     JOptionPane.showMessageDialog(null, "No se encontró un usuario en el sistema asociado al documento " + usuario, "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    return false;
+                }
+                
+                if(sancionDao.findSancion(usuario) != null) {
+                    JOptionPane.showMessageDialog(null, "El usuario  " + usuario + " se encuentra sancionado, por lo tanto no puede realizar prestamos", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                     return false;
                 }
                 
@@ -79,6 +86,7 @@ public class PrestamosManager {
                 prestamo.setIdPersona(usuarioDto.getIdUsuario());
                 prestamo.setIdLibro(Integer.parseInt(libro));
                 prestamo.setFechaInicio(getFechaActual());
+                prestamo.setFechaFin(getFechaVencimiento(prestamo.getFechaInicio()));
                 prestamo.setEstado("Activo");
                 prestamoDao.insertPrestamo(prestamo);
                 

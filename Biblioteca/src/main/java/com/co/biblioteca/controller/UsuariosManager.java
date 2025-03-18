@@ -24,7 +24,7 @@ public class UsuariosManager {
         boolean isValid = true;
         
         if(usuario.getIdTipoDocumento() == 0 || usuario.getNumDocumento().isEmpty() || usuario.getNombre().isEmpty() ||
-                usuario.getApellido().isEmpty() || usuario.getTelefono().isEmpty()) {
+                usuario.getApellido().isEmpty() || usuario.getTelefono().isEmpty() || usuario.getEmail().isEmpty()) {
             isValid = false;
         }
         return isValid;

@@ -23,7 +23,6 @@ public class UsuariosDao {
     private static final String findUsuario = "SELECT id_persona, id_documento, num_documento, nombre_persona, apellido, telefono, email, direccion FROM personas WHERE num_documento = ?";
     private static final String updateUsuario = "UPDATE personas SET id_documento = ?, num_documento = ?, nombre_persona = ?, apellido = ?, telefono = ?, email = ?, direccion = ? WHERE id_persona = ?";
     
-    
     /**
      * Metodo encargado de insertar un nuevo usuario en la BD
      * @param usuario
@@ -205,7 +204,6 @@ public class UsuariosDao {
     
     /**
      * Metodo encargado de validar si un usuario ya existe en la BD
-     * @param idDocumento
      * @param numDocumento
      * @return
      * @throws SQLException 

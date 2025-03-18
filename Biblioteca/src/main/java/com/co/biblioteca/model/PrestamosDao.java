@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase que contiene todos los metodos para realizar las transacciones de prestamos en la BD del sistema
@@ -14,9 +16,10 @@ import java.sql.SQLException;
  */
 public class PrestamosDao {
     
-    private static final String insertPrestamo = "INSERT INTO prestamos (id_persona, id_libro, fecha_inicio, estado) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y'), ?)";
+    private static final String insertPrestamo = "INSERT INTO prestamos (id_persona, id_libro, fecha_inicio, fecha_fin, estado) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y'), STR_TO_DATE(?, '%d-%m-%Y'), ?)";
     private static final String findPrestamo = "SELECT * FROM prestamos WHERE id_persona = ? AND id_libro = ? AND estado = ?";
-    private static final String updateLibro = "UPDATE prestamos SET fecha_fin = STR_TO_DATE(?, '%d-%m-%Y'), estado = ? WHERE id_prestamo = ?";
+    private static final String updateLibro = "UPDATE prestamos SET fecha_devolucion = STR_TO_DATE(?, '%d-%m-%Y'), estado = ? WHERE id_prestamo = ?";
+    private static final String findAll = "SELECT * FROM prestamos WHERE estado = ?";
     
     /**
      * Metodo encargado de insertar un nuevo prestamo en la BD
@@ -34,6 +37,7 @@ public class PrestamosDao {
             preparedStm.setInt(index++, prestamo.getIdPersona());
             preparedStm.setInt(index++, prestamo.getIdLibro());
             preparedStm.setString(index++, prestamo.getFechaInicio());
+            preparedStm.setString(index++, prestamo.getFechaFin());
             preparedStm.setString(index++, prestamo.getEstado());
             preparedStm.executeUpdate();
 	} finally {
@@ -90,12 +94,47 @@ public class PrestamosDao {
         try {
             conn = Conexion.conectarBD();
             preparedStm = conn.prepareStatement(updateLibro);
-            preparedStm.setString(index++, prestamo.getFechaFin());
+            preparedStm.setString(index++, prestamo.getFechaDevolucion());
             preparedStm.setString(index++, prestamo.getEstado());
             preparedStm.setInt(index++, prestamo.getIdPrestamo());
             preparedStm.executeUpdate();
         } finally {
             Conexion.closeConnection(preparedStm, conn);
         }
+    }
+    
+    /**
+     * Metodo encargado de consultar la lista de prestamos activos en BD
+     * @return
+     * @throws SQLException 
+     */
+    public List<PrestamoDTO> findAll() throws SQLException {
+        List<PrestamoDTO> listPrestamos = new ArrayList<>();
+        Connection conn = null;
+        ResultSet resultado = null;
+        PreparedStatement preparedStm = null;
+        int index = 1;
+        
+        try {
+            conn = Conexion.conectarBD();
+            preparedStm = conn.prepareStatement(findAll);
+            preparedStm.setString(index++, "Activo");
+            resultado = preparedStm.executeQuery();
+            
+            while(resultado.next()) {
+                PrestamoDTO prestamoBD = null;
+                prestamoBD = new PrestamoDTO();
+                prestamoBD.setIdPrestamo(resultado.getInt("id_prestamo"));
+                prestamoBD.setIdPersona(resultado.getInt("id_persona"));
+                prestamoBD.setIdLibro(resultado.getInt("id_libro"));
+                prestamoBD.setFechaInicio(resultado.getString("fecha_inicio"));
+                prestamoBD.setFechaFin(resultado.getString("fecha_fin"));
+                prestamoBD.setEstado(resultado.getString("estado"));
+                listPrestamos.add(prestamoBD);
+            }
+        } finally {
+            Conexion.closeConnection(resultado, preparedStm, conn);
+        }
+        return listPrestamos;
     }
 }

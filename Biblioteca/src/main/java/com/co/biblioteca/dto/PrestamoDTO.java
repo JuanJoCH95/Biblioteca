@@ -11,6 +11,7 @@ public class PrestamoDTO {
     private String nombreLibro;
     private String nombrePersona;
     private String documentoPersona;
+    private String fechaDevolucion;
 
     public int getIdPrestamo() {
         return idPrestamo;
@@ -82,5 +83,13 @@ public class PrestamoDTO {
 
     public void setDocumentoPersona(String documentoPersona) {
         this.documentoPersona = documentoPersona;
+    }
+    
+    public String getFechaDevolucion() {
+        return fechaDevolucion;
+    }
+
+    public void setFechaDevolucion(String fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
     }
 }
