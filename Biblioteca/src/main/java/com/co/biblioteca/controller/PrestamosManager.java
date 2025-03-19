@@ -48,7 +48,7 @@ public class PrestamosManager {
                     return false;
                 }
                 
-                if(sancionDao.findSancion(usuario) != null) {
+                if(sancionDao.findSancionByUsuario(usuario) != null) {
                     JOptionPane.showMessageDialog(null, "El usuario  " + usuario + " se encuentra sancionado, por lo tanto no puede realizar prestamos", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                     return false;
                 }

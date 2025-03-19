@@ -37,9 +37,9 @@ CREATE TABLE Personas (
 
 CREATE TABLE Sanciones (
     id_sancion INT AUTO_INCREMENT PRIMARY KEY,
-    id_persona INT,
+    id_prestamo INT,
     estado VARCHAR(20),
-    FOREIGN KEY (id_persona) REFERENCES Personas(id_persona)
+    FOREIGN KEY (id_prestamo) REFERENCES Prestamos(id_prestamo)
 );
 
 CREATE TABLE Prestamos (

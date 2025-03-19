@@ -20,15 +20,17 @@ public class SancionesManager {
     PrestamosDao prestamoDao = new PrestamosDao();
     SancionesDao sancionesDao = new SancionesDao();
     
+    /**
+     * Metodo encargado de gestionar todo el proceso de sanciones
+     */
     public void sancionar() {
         try {
-            List<PrestamoDTO> listPrestamos = new ArrayList<>();
-            listPrestamos = prestamoDao.findAll();
+            List<PrestamoDTO> listPrestamos = prestamoDao.findAll();
         
             for(PrestamoDTO prestamo : listPrestamos) {
-                if(calculo(prestamo.getFechaFin()) > 0) {
+                if(calculo(prestamo.getFechaFin()) > 0 && sancionesDao.findSancionActiva(prestamo.getIdPrestamo()) == null) {
                     SancionDTO sancionDto = new SancionDTO();
-                    sancionDto.setIdPersona(prestamo.getIdPersona());
+                    sancionDto.setIdPrestamo(prestamo.getIdPrestamo());
                     sancionDto.setEstado("Activo");
                     sancionesDao.insertSancion(sancionDto);
                 }
@@ -41,7 +43,7 @@ public class SancionesManager {
     
     private int calculo(String fecha) throws Exception {
         Date fechaActual = new Date();
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaFin = formato.parse(fecha);
         
         return fechaActual.compareTo(fechaFin);

@@ -18,7 +18,7 @@ public class PrestamosDao {
     
     private static final String insertPrestamo = "INSERT INTO prestamos (id_persona, id_libro, fecha_inicio, fecha_fin, estado) VALUES (?, ?, STR_TO_DATE(?, '%d-%m-%Y'), STR_TO_DATE(?, '%d-%m-%Y'), ?)";
     private static final String findPrestamo = "SELECT * FROM prestamos WHERE id_persona = ? AND id_libro = ? AND estado = ?";
-    private static final String updateLibro = "UPDATE prestamos SET fecha_devolucion = STR_TO_DATE(?, '%d-%m-%Y'), estado = ? WHERE id_prestamo = ?";
+    private static final String updatePrestamo = "UPDATE prestamos SET fecha_devolucion = STR_TO_DATE(?, '%d-%m-%Y'), estado = ? WHERE id_prestamo = ?";
     private static final String findAll = "SELECT * FROM prestamos WHERE estado = ?";
     
     /**
@@ -93,7 +93,7 @@ public class PrestamosDao {
         
         try {
             conn = Conexion.conectarBD();
-            preparedStm = conn.prepareStatement(updateLibro);
+            preparedStm = conn.prepareStatement(updatePrestamo);
             preparedStm.setString(index++, prestamo.getFechaDevolucion());
             preparedStm.setString(index++, prestamo.getEstado());
             preparedStm.setInt(index++, prestamo.getIdPrestamo());
@@ -122,8 +122,7 @@ public class PrestamosDao {
             resultado = preparedStm.executeQuery();
             
             while(resultado.next()) {
-                PrestamoDTO prestamoBD = null;
-                prestamoBD = new PrestamoDTO();
+                PrestamoDTO prestamoBD = new PrestamoDTO();
                 prestamoBD.setIdPrestamo(resultado.getInt("id_prestamo"));
                 prestamoBD.setIdPersona(resultado.getInt("id_persona"));
                 prestamoBD.setIdLibro(resultado.getInt("id_libro"));

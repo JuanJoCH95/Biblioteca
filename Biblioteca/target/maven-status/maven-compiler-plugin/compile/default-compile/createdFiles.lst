@@ -1,5 +1,6 @@
 com\co\biblioteca\controller\PrestamosManager.class
 com\co\biblioteca\controller\UsuariosManager.class
+com\co\biblioteca\dto\SancionDTO.class
 com\co\biblioteca\view\Dashboard$1.class
 com\co\biblioteca\view\Libros$3.class
 com\co\biblioteca\controller\DevolucionesManager.class
@@ -31,6 +32,7 @@ com\co\biblioteca\view\Dashboard$6.class
 com\co\biblioteca\view\Prestamos$1.class
 com\co\biblioteca\dto\UsuarioDTO.class
 com\co\biblioteca\model\PrestamosDao.class
+com\co\biblioteca\controller\SancionesManager.class
 com\co\biblioteca\view\NewLibro.class
 com\co\biblioteca\dto\PrestamoDTO.class
 com\co\biblioteca\view\Libros.class
@@ -40,3 +42,4 @@ com\co\biblioteca\view\Dashboard$2.class
 com\co\biblioteca\model\UsuariosDao.class
 com\co\biblioteca\view\Dashboard$5.class
 com\co\biblioteca\view\Reportes.class
+com\co\biblioteca\model\SancionesDao.class

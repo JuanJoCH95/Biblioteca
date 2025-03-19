@@ -1,5 +1,6 @@
 package com.co.biblioteca.view;
 
+import com.co.biblioteca.controller.SancionesManager;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -311,6 +312,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                SancionesManager sanciones = new SancionesManager();
+                sanciones.sancionar();
                 new Dashboard().setVisible(true);
             }
         });

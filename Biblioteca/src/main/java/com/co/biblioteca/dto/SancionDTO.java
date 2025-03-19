@@ -3,7 +3,7 @@ package com.co.biblioteca.dto;
 public class SancionDTO {
     
     private int idSancion;
-    private int idPersona;
+    private int idPrestamo;
     private String estado;
 
     public int getIdSancion() {
@@ -14,12 +14,12 @@ public class SancionDTO {
         this.idSancion = idSancion;
     }
 
-    public int getIdPersona() {
-        return idPersona;
+    public int getIdPrestamo() {
+        return idPrestamo;
     }
 
-    public void setIdPersona(int idPersona) {
-        this.idPersona = idPersona;
+    public void setIdPrestamo(int idPrestamo) {
+        this.idPrestamo = idPrestamo;
     }
 
     public String getEstado() {

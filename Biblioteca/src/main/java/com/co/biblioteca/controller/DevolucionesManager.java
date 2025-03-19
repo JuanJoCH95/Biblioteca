@@ -2,9 +2,11 @@ package com.co.biblioteca.controller;
 
 import com.co.biblioteca.dto.LibroDTO;
 import com.co.biblioteca.dto.PrestamoDTO;
+import com.co.biblioteca.dto.SancionDTO;
 import com.co.biblioteca.dto.UsuarioDTO;
 import com.co.biblioteca.model.LibrosDao;
 import com.co.biblioteca.model.PrestamosDao;
+import com.co.biblioteca.model.SancionesDao;
 import com.co.biblioteca.model.UsuariosDao;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +22,7 @@ public class DevolucionesManager {
     LibrosDao libroDao = new LibrosDao();
     UsuariosDao usuarioDao = new UsuariosDao();
     PrestamosDao prestamoDao = new PrestamosDao();
+    SancionesDao sancionesDao = new SancionesDao();
     
     /**
      * Metodo encargado de validar los campos del formulario
@@ -33,6 +36,11 @@ public class DevolucionesManager {
                 JOptionPane.showMessageDialog(null, "Debe llenar todos los campos", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                 return false;
             } else {
+                if(!usuarioDao.validateUsuario(usuario)) {
+                    JOptionPane.showMessageDialog(null, "No se encontró un usuario en el sistema asociado al documento " + usuario, "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    return false;
+                }
+                
                 UsuarioDTO usuarioDto = usuarioDao.findUsuario(usuario);
                 PrestamoDTO prestamo = new PrestamoDTO();
                 prestamo.setIdPersona(usuarioDto.getIdUsuario());
@@ -73,6 +81,13 @@ public class DevolucionesManager {
                 
                 libroDto.setDisponibles(libroDto.getDisponibles() + 1);
                 libroDao.updateLibro(libroDto);
+                
+                //Si el usuario estaba sancionado y devuelve el libro, se le retira la sancion asociada al prestamo
+                SancionDTO sancion = sancionesDao.findSancionActiva(prestamo.getIdPrestamo());
+                if(sancion != null) {
+                    sancion.setEstado("Inactivo");
+                    sancionesDao.updateSancion(sancion);
+                }
                 
                 JOptionPane.showMessageDialog(null, "La devolución se ha realizado exitosamente!", "AVISO", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
