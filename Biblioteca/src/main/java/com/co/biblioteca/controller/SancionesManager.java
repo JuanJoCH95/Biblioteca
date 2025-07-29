@@ -5,7 +5,6 @@ import com.co.biblioteca.dto.SancionDTO;
 import com.co.biblioteca.model.PrestamosDao;
 import com.co.biblioteca.model.SancionesDao;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
